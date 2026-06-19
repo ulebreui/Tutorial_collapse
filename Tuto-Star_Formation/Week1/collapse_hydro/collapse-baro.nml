@@ -1,0 +1,85 @@
+&RUN_PARAMS  
+hydro=.true.          ! Hydrodynamics is activated
+poisson=.true.        ! Gravity is activated
+nrestart=0            
+ncontrol=1
+nremap=2
+nsubcycle=6*1,35*2    ! This parameter sets the sub-cycling rule. 
+verbose=.false.
+/
+
+&AMR_PARAMS 
+levelmin=5            ! Minimum level of refinement
+levelmax=14           ! Maximum level of refinement
+ngridmax=200000
+nexpand=30*2
+boxlen=0.07702400000000001     ! Box size in pc. Must be recomputed whenever you change the IC. Usually taking 4 x the core radius is ok
+/
+
+&INIT_PARAMS
+condinit_kind='collapse'
+mass_c=1.                        ! Core mass in solar mass
+alpha_dense_core=0.4             ! Thermal-to-gravitational NRJ ratio
+beta_dense_core =0.01d0          ! Rotational-to-grav NRJ ratio 
+crit_dense_core =0.0             ! 1/mass-to-flux ratio (in units of critical mass-to-flux ratio)
+delta_rho=0.1d0                  ! Initial density perturbation
+theta_mag=0.0                    ! Angle between B and the rotation axis
+Mach=0.0d0                       ! Initial Mach number for the turbulent velocity field (requires init_turb.dat)
+/
+
+&OUTPUT_PARAMS
+foutput=100
+noutput=2
+tout=0,0.1
+/
+
+&POISSON_PARAMS 
+gravity_type=0
+epsilon=1d-4
+cg_levelmin=7
+/
+
+&HYDRO_PARAMS
+gamma=1.666667
+courant_factor=0.6
+slope_type=1
+scheme='muscl'
+riemann='hlld'
+riemann2d='hlld'
+pressure_fix=.true.
+allow_switch_solver=.true.
+switch_solv_dens=3.
+/
+
+&UNITS_PARAMS
+units_density = 3.83460000000000E-24         ! so that density in code units is equal to density in part/cc
+units_length  = 3.08000000000000E+18         ! 1 pc in cm
+units_time    = 1.97732040946880E+15         ! so that G=1 in code units
+/
+
+&COOLING_PARAMS
+barotropic_eos=.true.
+barotropic_eos_form='double_polytrope' ! type of barotropic eos
+polytrope_rho=1d-13                    ! sets rho_ad in EOS, in g/cm3
+polytrope_index=1.666667               ! sets gamma in EOS
+T_eos=10d0                             ! sets T0 in EOS, in K
+mu_gas=2.31d0                          ! molecular weight
+/
+
+&REFINE_PARAMS 
+jeans_refine=30*15.
+interpol_var=1
+interpol_type=1
+/
+
+&NONIDEALMHD_PARAMS
+nambipolar=.false.          ! Ambipolar diffusion activated
+nmagdiffu=.false.           ! Ohmic dissipation activated
+nminitimestep=.false.       ! Capping the resistivity to avoid very small dt
+resistivity_method=2       ! We use resistivity tables
+coefad=0.1d0               
+coefalfven=0.5
+rho_threshold=5d5
+coefdtohm=0.2d0
+gammaAD=3.5d13 
+/
