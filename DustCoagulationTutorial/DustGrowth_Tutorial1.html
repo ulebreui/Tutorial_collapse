@@ -7895,7 +7895,7 @@ a.anchor-link {
                  <span class="n">log_dtg</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
                  <span class="n">log_alpha_turb</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
                  <span class="n">rhograin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-                 <span class="n">grainsize</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                 <span class="n">grainsize</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
                  <span class="n">nsteps_dt</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
                  <span class="n">bin_scut</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">'''</span>
@@ -7925,7 +7925,7 @@ a.anchor-link {
 
 <span class="sd">    '''</span>
 
-    <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">NSTEPS_DT</span><span class="p">,</span> <span class="mi">5</span> <span class="o">+</span> <span class="n">NBINS</span> <span class="o">*</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nsteps_dt</span><span class="p">,</span> <span class="mi">5</span> <span class="o">+</span> <span class="n">NBINS</span> <span class="o">*</span> <span class="mi">2</span><span class="p">))</span>
 
     <span class="n">verbose_coala</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">rho_gas</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">log_rho_gas</span>
@@ -8058,7 +8058,7 @@ a.anchor-link {
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">size_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">SMIN</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">SMAX</span><span class="p">),</span> <span class="n">NBINS</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">grainsize</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">size_grid</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">*</span> <span class="n">size_grid</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">NBINS</span><span class="p">])</span>
 <span class="n">cm_to_mu</span> <span class="o">=</span> <span class="mf">1e4</span>
-<span class="n">grain_size</span> <span class="o">=</span> <span class="n">grain_size</span> <span class="o">*</span> <span class="n">cm_to_mu</span>
+<span class="n">grainsize</span> <span class="o">=</span> <span class="n">grainsize</span> <span class="o">*</span> <span class="n">cm_to_mu</span>
 </pre></div>
 </div>
 </div>
@@ -8124,7 +8124,7 @@ a.anchor-link {
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>For the purpose of training the emulator, we now want to generate a large training data set with uniformly random sampled initial conditions. Specifically, we want to randomise the gas density $\rho_\mathrm{gas}$ (rho_gas), the dust to gas mass ratio D/G (dtg), the dust grain density $\rho_\mathrm{grain}$ (rhograin) and the turbulence parameter $\alpha_\mathrm{turb}$ (alpha_turb). For simplicity, we will keep the temperature fixed to $T = 10\mathrm{K}$.</p>
 <p><strong>For $\rho_\mathrm{gas}$ consider a range of $10^{-20}$ to $10^{-11}\,\mathrm{g/cm}^{-3}$.</strong></p>
-<p><strong>For D/G consider a range of $10^{-3}$ to $10^{-11}\,\mathrm{g/cm}^{-1}$.</strong></p>
+<p><strong>For D/G consider a range of $10^{-3}$ to $0.1$.</strong></p>
 <p><strong>For $\alpha_\mathrm{turb}$ consider a range of $10^{-3}$ to $1.5$.</strong></p>
 <p><strong>For $\rho_\mathrm{grain}$ consider a range of $1$ to $3\,\mathrm{g/cm}^{-1}$.</strong></p>
 <p>Given the large dynamic range of $\rho_\mathrm{gas}$, D/G, and $\alpha_\mathrm{turb}$, it would be reasonable to sample these quantities in log space.</p>
