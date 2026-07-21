@@ -1,0 +1,7 @@
+numpy
+numba
+numba_progress
+scipy
+matplotlib
+progressbar
+mpmath

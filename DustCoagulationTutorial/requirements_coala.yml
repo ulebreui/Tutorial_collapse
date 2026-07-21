@@ -1,0 +1,22 @@
+name: coala
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+  - numpy
+  - numba
+  - scipy
+  - matplotlib
+  - mpmath
+  - pandas
+  - ipywidgets
+  - pip=26.0.1
+  - pip:
+      - numba-progress==1.2.0
+      - progressbar==2.5
+      - tqdm==4.67.3
+      - jupyterlab==4.5.8
+      - optuna==4.9.0
+      - jupyterlab-optuna==0.3.0
+      
+
